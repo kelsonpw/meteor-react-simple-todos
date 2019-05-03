@@ -6,9 +6,10 @@ const Task = ({ task }) => (
 );
 
 Task.propTypes = {
-  task: PropTypes.objectOf({
-    _id: PropTypes.number.isRequired,
+  task: PropTypes.shape({
+    _id: PropTypes.object.isRequired,
     text: PropTypes.string.isRequired,
+    createdAt: PropTypes.object.isRequired,
   }),
 };
 
