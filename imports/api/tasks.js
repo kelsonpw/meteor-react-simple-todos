@@ -28,13 +28,21 @@ Meteor.methods({
   },
   'tasks.remove'(taskId) {
     check(taskId, String);
+    const task = Tasks.findOne(taskId);
 
+    if (task.private && task.owner !== this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
     Tasks.remove(taskId);
   },
   'tasks.setChecked'(taskId, setChecked) {
     check(taskId, String);
     check(setChecked, Boolean);
+    const task = Tasks.findOne(taskId);
 
+    if (task.private && task.owner !== this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
     Tasks.update(taskId, { $set: { checked: setChecked } });
   },
   'tasks.setPrivate'(taskId, setToPrivate) {
